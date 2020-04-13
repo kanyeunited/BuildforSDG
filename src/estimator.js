@@ -6,20 +6,20 @@ const infectionsByRequestedTime = (data) => {
   else if (data.periodType === 'months') period = data.timeToElapse * 30;
 
   return this.currentlyInfected * (2 ** Number(period / 3));
-}
+};
 
 const dollarsInFlight = (data) => {
   let dollarsInFlights = infectionsByRequestedTime(data) * data.region.avgDailyIncomePopulation;
-      dollarsInFlights *= data.region.avgDailyIncomeInUSD;
-      dollarsInFlights = Number(dollarsInFlight / period);
+  dollarsInFlights *= data.region.avgDailyIncomeInUSD;
+  dollarsInFlights = Number(dollarsInFlights / period);
 
   return dollarsInFlights;
-}
+};
 
 const covid19ImpactEstimator = (data) => ({
   data: data,
   estimate: {
-    impact:{
+    impact: {
       currentlyInfected: data.reportedCases * 10,
       infectionsByRequestedTime: infectionsByRequestedTime(data),
       severeCasesByRequestedTime: Number(infectionsByRequestedTime(data) * 0.15),
@@ -38,6 +38,6 @@ const covid19ImpactEstimator = (data) => ({
       dollarsInFlight: dollarsInFlight(data)
     }
   }
-})
+});
 
 export default covid19ImpactEstimator;
