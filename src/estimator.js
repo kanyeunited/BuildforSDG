@@ -10,8 +10,10 @@ const impact = (data) => {
   const hospitalBedsByRequestedTime = (data.totalHospitalBeds * 0.35) - this.severeCasesByRequestedTime;
   const casesForICUByRequestedTime = Number(infectionsByRequestedTime * 0.05);
   const casesForVentilatorsByRequestedTime = Number(infectionsByRequestedTime * 0.02);
-  const dollarsInFlight = Number((infectionsByRequestedTime * data.region.avgDailyIncomePopulation * data.region.avgDailyIncomeInUSD) / period);
-
+  const dollarsInFlight = infectionsByRequestedTime * data.region.avgDailyIncomePopulation;
+        dollarsInFlight *= data.region.avgDailyIncomeInUSD;
+        dollarsInFlight = Number(dollarsInFlight / period);
+        
   return{
     currentlyInfected,
     infectionsByRequestedTime,
@@ -20,12 +22,12 @@ const impact = (data) => {
     casesForICUByRequestedTime,
     casesForVentilatorsByRequestedTime,
     dollarsInFlight
-  }
+  };
 };
 
 const severeImpact = (data) => {
   let period = 0;
-  if (data.periodType === 'days')  period = data.timeToElapse;
+  if (data.periodType === 'days') period = data.timeToElapse;
     else if (data.periodType === 'weeks') period = data.timeToElapse * 7;
     else if (data.periodType === 'months') period = data.timeToElapse * 30;
 
@@ -35,7 +37,9 @@ const severeImpact = (data) => {
   const hospitalBedsByRequestedTime = (data.totalHospitalBeds * 0.35) - this.severeCasesByRequestedTime;
   const casesForICUByRequestedTime = Number(infectionsByRequestedTime * 0.05);
   const casesForVentilatorsByRequestedTime = Number(infectionsByRequestedTime * 0.02);
-  const dollarsInFlight = Number((infectionsByRequestedTime * data.region.avgDailyIncomePopulation * data.region.avgDailyIncomeInUSD) / period);
+  const dollarsInFlight = infectionsByRequestedTime * data.region.avgDailyIncomePopulation;
+        dollarsInFlight *= data.region.avgDailyIncomeInUSD;
+        dollarsInFlight = Number(dollarsInFlight / period);
 
   return{
     currentlyInfected,
@@ -45,7 +49,7 @@ const severeImpact = (data) => {
     casesForICUByRequestedTime,
     casesForVentilatorsByRequestedTime,
     dollarsInFlight
-  }
+  };
 };
 
 const covid19ImpactEstimator = (data) => ({
