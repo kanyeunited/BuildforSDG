@@ -81,7 +81,15 @@ const severeImpact_dollarsInFlight = (data, period, severeImpact_infectionsByReq
 // Output Function
 
 const covid19ImpactEstimator = (data) => {
-  data,
+  const {
+    region,
+    periodType,
+    timeToElapse,
+    reportedCases,
+    population,
+    totalHospitalBeds
+  } = data;
+
   "estimate": {
     "impact": {
       "currentlyInfected": impact_currentlyInfected,
