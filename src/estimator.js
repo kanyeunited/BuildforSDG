@@ -9,7 +9,8 @@ const infectionsByRequestedTime = (data) => {
 };
 
 const dollarsInFlight = (data) => {
-  let dollarsInFlights = infectionsByRequestedTime(data) * data.region.avgDailyIncomePopulation;
+  let dollarsInFlights = infectionsByRequestedTime(data);
+  dollarsInFlights *= data.region.avgDailyIncomePopulation;
   dollarsInFlights *= data.region.avgDailyIncomeInUSD;
   dollarsInFlights = Number(dollarsInFlights / period);
 
@@ -17,7 +18,7 @@ const dollarsInFlight = (data) => {
 };
 
 const covid19ImpactEstimator = (data) => ({
-  data: data,
+  data,
   estimate: {
     impact: {
       currentlyInfected: data.reportedCases * 10,
