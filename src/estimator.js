@@ -62,6 +62,6 @@ const severeImpact = (data) => {
 
 export default covid19ImpactEstimator;
 
-export {"impact", impact}
+export default impact;
 
-export {"severeImpact", severeImpact}
+export default severeImpact;
