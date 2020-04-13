@@ -8,7 +8,7 @@ const impact = (data) => {
     reportedCases,
     population,
     totalHospitalBeds
-  } = data
+  } = data;
 
   const period = "";
 
@@ -38,7 +38,7 @@ const severeImpact = (data) => {
     reportedCases,
     population,
     totalHospitalBeds
-  } = data
+  } = data;
 
   const period = "";
 
