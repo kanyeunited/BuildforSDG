@@ -17,6 +17,13 @@ const dollarsInFlight = (data) => {
   return dollarsInFlights;
 };
 
+const hospitalBedsByRequestedTime = (data) => {
+  let hospitalBedsByRequestedTimes = data.totalHospitalBeds * 0.35;
+  hospitalBedsByRequestedTimes -= this.severeCasesByRequestedTime;
+
+  return hospitalBedsByRequestedTimes;
+};
+
 const covid19ImpactEstimator = (data) => ({
   data,
   estimate: {
@@ -24,7 +31,7 @@ const covid19ImpactEstimator = (data) => ({
       currentlyInfected: data.reportedCases * 10,
       infectionsByRequestedTime: infectionsByRequestedTime(data),
       severeCasesByRequestedTime: Number(infectionsByRequestedTime(data) * 0.15),
-      hospitalBedsByRequestedTime: (data.totalHospitalBeds * 0.35) - this.severeCasesByRequestedTime,
+      hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(data),
       casesForICUByRequestedTime: Number(infectionsByRequestedTime(data) * 0.05),
       casesForVentilatorsByRequestedTime: Number(infectionsByRequestedTime(data) * 0.02),
       dollarsInFlight: dollarsInFlight(data)
@@ -33,7 +40,7 @@ const covid19ImpactEstimator = (data) => ({
       currentlyInfected: data.reportedCases * 50,
       infectionsByRequestedTime: infectionsByRequestedTime(data),
       severeCasesByRequestedTime: Number(infectionsByRequestedTime(data) * 0.15),
-      hospitalBedsByRequestedTime: (data.totalHospitalBeds * 0.35) - this.severeCasesByRequestedTime,
+      hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(data),
       casesForICUByRequestedTime: Number(infectionsByRequestedTime(data) * 0.05),
       casesForVentilatorsByRequestedTime: Number(infectionsByRequestedTime(data) * 0.02),
       dollarsInFlight: dollarsInFlight(data)
