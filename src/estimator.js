@@ -40,7 +40,7 @@ const impact_casesForVentilatorsByRequestedTime = (impact_infectionsByRequestedT
   return Number(impact_infectionsByRequestedTime * 0.02);
 }
 
-const dollarsInFlight = (data, period, impact_infectionsByRequestedTime) => {
+const impact_dollarsInFlight = (data, period, impact_infectionsByRequestedTime) => {
   return Number((impact_infectionsByRequestedTime * data.region.avgDailyIncomePopulation * data.region.avgDailyIncomeInUSD) / period);
 }
 
@@ -74,7 +74,7 @@ const severeImpact_casesForVentilatorsByRequestedTime = (severeImpact_infections
   return Number(severeImpact_infectionsByRequestedTime * 0.02);
 }
 
-const dollarsInFlight = (data, period, severeImpact_infectionsByRequestedTime) => {
+const severeImpact_dollarsInFlight = (data, period, severeImpact_infectionsByRequestedTime) => {
   return Number((severeImpact_infectionsByRequestedTime * data.region.avgDailyIncomePopulation * data.region.avgDailyIncomeInUSD) / period);
 }
 
