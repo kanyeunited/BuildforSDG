@@ -18,7 +18,7 @@ const covid19ImpactEstimator = (data) => {
       period = data.timeToElapse * 30;
     }
 
-  export const impact = (data) => {
+  const impact = (data) => {
     const currentlyInfected = data.reportedCases * 10;
     const infectionsByRequestedTime = currentlyInfected * (2 ** Number(period / 3));
     const severeCasesByRequestedTime =  Number(infectionsByRequestedTime * 0.15);
@@ -28,7 +28,7 @@ const covid19ImpactEstimator = (data) => {
     const dollarsInFlight = Number((infectionsByRequestedTime * data.region.avgDailyIncomePopulation * data.region.avgDailyIncomeInUSD) / period);
   }
 
-  export const severeImpact = (data) => {
+  const severeImpact = (data) => {
     const currentlyInfected = data.reportedCases * 50;
     const infectionsByRequestedTime = currentlyInfected * (2 ^ Number(period / 3));
     const severeCasesByRequestedTime =  Number(infectionsByRequestedTime * 0.15);
