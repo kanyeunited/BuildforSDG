@@ -10,13 +10,13 @@ const impact = (data) => {
     totalHospitalBeds
   } = data;
 
-  const period = "";
+  let period = 0;
 
-  if(data.periodType === "days"){
+  if (data.periodType === 'days') {
       period = data.timeToElapse;
-    }else if(data.periodType === "weeks"){
+    } else if (data.periodType === 'weeks') {
       period = data.timeToElapse * 7;
-    }else if(data.periodType === "months"){
+    } else if (data.periodType === 'months') {
       period = data.timeToElapse * 30;
     }
 
@@ -40,13 +40,13 @@ const severeImpact = (data) => {
     totalHospitalBeds
   } = data;
 
-  const period = "";
+  let period = 0;
 
-  if(data.periodType === "days"){
+  if (data.periodType === 'days') {
       period = data.timeToElapse;
-    }else if(data.periodType === "weeks"){
+    } else if (data.periodType === 'weeks') {
       period = data.timeToElapse * 7;
-    }else if(data.periodType === "months"){
+    } else if (data.periodType === 'months') {
       period = data.timeToElapse * 30;
     }
 
