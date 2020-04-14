@@ -1,6 +1,4 @@
-const covid19ImpactEstimator = (result) => {
-  const [data] = result;
-
+const covid19ImpactEstimator = (data) => {
   const currentlyInfected = (estimate) => data.reportedCases * estimate;
 
   const infectionsByRequestedTime = (estimate) => {
@@ -34,7 +32,7 @@ const covid19ImpactEstimator = (result) => {
     return hospitalBedsByRequestedTimes;
   };
 
-  const output = () => ({
+  const output = (data) => ({
     data,
     estimate: {
       impact: {
@@ -58,7 +56,7 @@ const covid19ImpactEstimator = (result) => {
     }
   });
 
-  return output();
+  return output(data);
 };
 
 export default covid19ImpactEstimator;
