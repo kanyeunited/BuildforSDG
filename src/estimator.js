@@ -2,7 +2,7 @@ let period = 0;
 const i = 10;
 const j = 50;
 
-const currentlyInfected = (data, estimate) => data.reportedCases * estimate.parseInt();
+const currentlyInfected = (data, estimate) => data.reportedCases * estimate;
 
 const infectionsByRequestedTime = (data, estimate) => {
   if (data.periodType.toLowerCase() === 'days') period = data.timeToElapse;
