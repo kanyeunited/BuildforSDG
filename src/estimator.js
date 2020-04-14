@@ -8,10 +8,12 @@ const currentlyInfected = (results, estimate) => {
   return reportedCases * estimate;
 };
 
-const infectionsByRequestedTime = (data, estimate) => {
-  if (data.periodType.toLowerCase() === 'days') period = data.timeToElapse;
-  else if (data.periodType.toLowerCase() === 'weeks') period = data.timeToElapse * 7;
-  else if (data.periodType.trimtoLowerCase() === 'months') period = data.timeToElapse * 30;
+const infectionsByRequestedTime = (results, estimate) => {
+  const [data] = results;
+  const { periodType, timeToElapse } = data;
+  if (periodType.toLowerCase() === 'days') period = timeToElapse;
+  else if (periodType.toLowerCase() === 'weeks') period = timeToElapse * 7;
+  else if (periodType.trimtoLowerCase() === 'months') period = timeToElapse * 30;
 
   return currentlyInfected(data, estimate) * (2 ** Math.trunc(period / 3));
 };
