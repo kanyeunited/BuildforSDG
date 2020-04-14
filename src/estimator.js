@@ -32,7 +32,7 @@ const covid19ImpactEstimator = (data) => {
     return hospitalBedsByRequestedTimes;
   };
 
-  const output = (data) => ({
+  const output = () => ({
     data,
     estimate: {
       impact: {
@@ -56,7 +56,7 @@ const covid19ImpactEstimator = (data) => {
     }
   });
 
-  return output(data);
+  return output();
 };
 
 export default covid19ImpactEstimator;
