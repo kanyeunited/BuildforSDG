@@ -4,16 +4,16 @@ const currentlyInfected = (data, estimate) => {
   return data.reportedCases * estimate;
 };
 
-const infectionsByRequestedTime = (data, currentlyInfected) => {
+const infectionsByRequestedTime = (data, estimate) => {
   if (data.periodType === 'days') period = data.timeToElapse;
   else if (data.periodType === 'weeks') period = data.timeToElapse * 7;
   else if (data.periodType === 'months') period = data.timeToElapse * 30;
 
-  return currentlyInfected * (2 ** Math.trunc(period / 3));
+  return currentlyInfected(data, estimate) * (2 ** Math.trunc(period / 3));
 };
 
-const dollarsInFlight = (data, currentlyInfected) => {
-  let dollarsInFlights = infectionsByRequestedTime(data, currentlyInfected);
+const dollarsInFlight = (data, estimate) => {
+  let dollarsInFlights = infectionsByRequestedTime(data, estimate);
   dollarsInFlights *= data.region.avgDailyIncomePopulation;
   dollarsInFlights *= data.region.avgDailyIncomeInUSD;
   dollarsInFlights = Math.trunc(dollarsInFlights / period);
@@ -21,9 +21,9 @@ const dollarsInFlight = (data, currentlyInfected) => {
   return dollarsInFlights;
 };
 
-const hospitalBedsByRequestedTime = (data, currentlyInfected) => {
+const hospitalBedsByRequestedTime = (data, estimate) => {
   let hospitalBedsByRequestedTimes = Math.trunc(data.totalHospitalBeds * 0.35);
-  const severeCasesByRequestedTime = infectionsByRequestedTime(data, currentlyInfected);
+  const severeCasesByRequestedTime = infectionsByRequestedTime(data, estimate);
   hospitalBedsByRequestedTimes -= Math.trunc(severeCasesByRequestedTime * 0.15);
 
   return hospitalBedsByRequestedTimes;
