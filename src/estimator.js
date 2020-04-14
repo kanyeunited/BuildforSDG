@@ -76,7 +76,7 @@ const covid19ImpactEstimator = (data) => {
 };
 
 export default covid19ImpactEstimator;
-
+/*
 const fetchLogs = (ResponseFormat) => {
   const contentType = 'application/' + ResponseFormat;
   const messageHeaders = new Headers('Content-Type', contentType);
@@ -115,3 +115,4 @@ const startApp = () => {
 };
 
 startApp();
+*/
