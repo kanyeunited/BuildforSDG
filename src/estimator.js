@@ -83,35 +83,41 @@ const fetchInput = () => {
   let ResponseFormat = getResponseFormat().toLowerCase();
   if (ResponseFormat === '') ResponseFormat = 'json';
 
-  fetch('http://example.com/api/v1/on-covid-19/'+ResponseFormat).then((response) => {
-      if (ResponseFormat === 'xml') return response.xml();
-      else if (ResponseFormat === 'json')return response.json();
-    }).then((data) => {
-      covid19ImpactEstimator(data);
-      fetchLogs(ResponseFormat);
-    }).catch((err) => {
-      console.error(err);
-    });
+  const api = 'http://example.com/api/v1/on-covid-19/' + ResponseFormat;
+
+  fetch(api)
+      .then((response) => ResponseFormat === 'xml' ? response.xml() : response.json())
+        .then((data) => {
+          covid19ImpactEstimator(data);
+          fetchLogs(ResponseFormat);
+        })
+          .catch((err) => {
+            console.error(err);
+          });
 };
 
 const fetchLogs = (ResponseFormat) => {
-  let messageHeaders = new Headers();
-  messageHeaders.append('Content-Type','application/'+ResponseFormat);
+  const contentType = 'Content-Type','application/' + ResponseFormat;
+  let messageHeaders = new Headers(contentType);
+  messageHeaders.append();
 
   fetch('http://example.com/api/v1/on-covid-19/logs', {
     method: 'GET',
     headers: messageHeaders
-  }).then((response) => {
-      response.text();
-    }).then((data) => {
-      console.log(data);
-    }).catch((err) => {
-      console.error(err);
-    });
+  })
+      .then((response) => {
+        response.text();
+      })
+        .then((data) => {
+          console.log(data);
+        })
+          .catch((err) => {
+            console.error(err);
+          });
 };
 
 const startApp = () => {
-                         	fetchInput();
-                        };
+  fetchInput();
+};
 
 startApp();
