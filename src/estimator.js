@@ -77,9 +77,23 @@ const covid19ImpactEstimator = (data) => {
 
 export default covid19ImpactEstimator;
 
-const getResponseFormat = () => prompt('Enter Response Format!');
+const fetchLogs = (ResponseFormat) => {
+  const contentType = 'application/' + ResponseFormat;
+  const messageHeaders = new Headers('Content-Type', contentType);
+  messageHeaders.append();
+
+  fetch('http://example.com/api/v1/on-covid-19/logs', {
+    method: 'GET',
+    headers: messageHeaders
+  })
+    .then((response) => response.text())
+    .then((data) => console.log(data))
+      .catch((err) => console.error(err));
+};
 
 const fetchInput = () => {
+  const getResponseFormat = prompt('Enter Response Format!');
+
   let ResponseFormat = getResponseFormat().toLowerCase();
   if (ResponseFormat === '') ResponseFormat = 'json';
 
@@ -94,20 +108,6 @@ const fetchInput = () => {
       .catch((err) => {
         console.error(err);
       });
-};
-
-const fetchLogs = (ResponseFormat) => {
-  const contentType = 'application/' + ResponseFormat;
-  const messageHeaders = new Headers('Content-Type', contentType);
-  messageHeaders.append();
-
-  fetch('http://example.com/api/v1/on-covid-19/logs', {
-    method: 'GET',
-    headers: messageHeaders
-  })
-    .then((response) => response.text())
-    .then((data) => console.log(data))
-      .catch((err) => console.error(err));
 };
 
 const startApp = () => {
