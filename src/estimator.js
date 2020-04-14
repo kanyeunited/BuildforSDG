@@ -22,7 +22,7 @@ const output = (data) => ({
   }
 });
 
-const covid19ImpactEstimator = ({ data }) => {
+const covid19ImpactEstimator = (data) => {
   const {
     reportedCases,
     periodType,
@@ -36,33 +36,33 @@ const covid19ImpactEstimator = ({ data }) => {
     avgDailyIncomeInUSD
   } = region;
 
-  const currentlyInfected = (estimate) => reportedCases * estimate;
+  const currentlyInfected = (estimate) => data.reportedCases * estimate;
 
   const infectionsByRequestedTime = (estimate) => {
     let period = 0;
-    if (periodType === 'days') period = timeToElapse;
-    else if (periodType === 'weeks') period = timeToElapse * 7;
-    else if (periodType === 'months') period = timeToElapse * 30;
+    if (data.periodType === 'days') period = data.timeToElapse;
+    else if (data.periodType === 'weeks') period = data.timeToElapse * 7;
+    else if (data.periodType === 'months') period = data.timeToElapse * 30;
 
     return currentlyInfected(estimate) * (2 ** Math.trunc(period / 3));
   };
 
   const dollarsInFlight = (estimate) => {
     let period = 0;
-    if (periodType === 'days') period = timeToElapse;
-    else if (periodType === 'weeks') period = timeToElapse * 7;
-    else if (periodType === 'months') period = timeToElapse * 30;
+    if (data.periodType === 'days') period = data.timeToElapse;
+    else if (data.periodType === 'weeks') period = data.timeToElapse * 7;
+    else if (data.periodType === 'months') period = data.timeToElapse * 30;
 
     let dollarsInFlights = infectionsByRequestedTime(estimate);
-    dollarsInFlights *= avgDailyIncomePopulation;
-    dollarsInFlights *= avgDailyIncomeInUSD;
+    dollarsInFlights *= data.region.avgDailyIncomePopulation;
+    dollarsInFlights *= data.region.avgDailyIncomeInUSD;
     dollarsInFlights = Math.trunc(dollarsInFlights / period);
 
     return dollarsInFlights;
   };
 
   const hospitalBedsByRequestedTime = (estimate) => {
-    let hospitalBedsByRequestedTimes = Math.trunc(totalHospitalBeds * 0.35);
+    let hospitalBedsByRequestedTimes = Math.trunc(data.totalHospitalBeds * 0.35);
     const severeCasesByRequestedTime = infectionsByRequestedTime(estimate);
     hospitalBedsByRequestedTimes -= Math.trunc(severeCasesByRequestedTime * 0.15);
 
