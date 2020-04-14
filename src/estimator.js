@@ -22,7 +22,9 @@ const output = (data) => ({
   }
 });
 
-const covid19ImpactEstimator = (data) => {
+const covid19ImpactEstimator = (result) => {
+  const [data] = result;
+
   const {
     reportedCases,
     periodType,
