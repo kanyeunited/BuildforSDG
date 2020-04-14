@@ -7,7 +7,7 @@ const infectionsByRequestedTime = (data, estimate) => {
   else if (data.periodType.toLowerCase() === 'weeks') period = data.timeToElapse * 7;
   else if (data.periodType.trimtoLowerCase() === 'months') period = data.timeToElapse * 30;
 
-  return currentlyInfected(data, estimate) * (2 ** Math.trunc(period / 3));
+  return 50 * (2 ** Math.trunc(period / 3));
 };
 
 const dollarsInFlight = (data, estimate) => {
