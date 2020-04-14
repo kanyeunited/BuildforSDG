@@ -1,22 +1,22 @@
 const covid19ImpactEstimator = (data) => {
-  const currentlyInfected = (estimate) => data.reportedCases * estimate;
+  const currentlyInfected = (data, estimate) => data.reportedCases * estimate;
 
-  const infectionsByRequestedTime = (estimate) => {
+  const infectionsByRequestedTime = (data, estimate) => {
     let period = 0;
     if (data.periodType === 'days') period = data.timeToElapse;
     else if (data.periodType === 'weeks') period = data.timeToElapse * 7;
     else if (data.periodType === 'months') period = data.timeToElapse * 30;
 
-    return currentlyInfected(estimate) * (2 ** Math.trunc(period / 3));
+    return currentlyInfected(data, estimate) * (2 ** Math.trunc(period / 3));
   };
 
-  const dollarsInFlight = (estimate) => {
+  const dollarsInFlight = (data, estimate) => {
     let period = 0;
     if (data.periodType === 'days') period = data.timeToElapse;
     else if (data.periodType === 'weeks') period = data.timeToElapse * 7;
     else if (data.periodType === 'months') period = data.timeToElapse * 30;
 
-    let dollarsInFlights = infectionsByRequestedTime(estimate);
+    let dollarsInFlights = infectionsByRequestedTime(data, estimate);
     dollarsInFlights *= data.region.avgDailyIncomePopulation;
     dollarsInFlights *= data.region.avgDailyIncomeInUSD;
     dollarsInFlights = Math.trunc(dollarsInFlights / period);
@@ -24,9 +24,9 @@ const covid19ImpactEstimator = (data) => {
     return dollarsInFlights;
   };
 
-  const hospitalBedsByRequestedTime = (estimate) => {
+  const hospitalBedsByRequestedTime = (data, estimate) => {
     let hospitalBedsByRequestedTimes = Math.trunc(data.totalHospitalBeds * 0.35);
-    const severeCasesByRequestedTime = infectionsByRequestedTime(estimate);
+    const severeCasesByRequestedTime = infectionsByRequestedTime(data, estimate);
     hospitalBedsByRequestedTimes -= Math.trunc(severeCasesByRequestedTime * 0.15);
 
     return hospitalBedsByRequestedTimes;
@@ -36,22 +36,22 @@ const covid19ImpactEstimator = (data) => {
     data,
     estimate: {
       impact: {
-        currentlyInfected: currentlyInfected(10),
-        infectionsByRequestedTime: infectionsByRequestedTime(10),
-        severeCasesByRequestedTime: Math.trunc(infectionsByRequestedTime(10) * 0.15),
-        hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(10),
-        casesForICUByRequestedTime: Math.trunc(infectionsByRequestedTime(10) * 0.05),
-        casesForVentilatorsByRequestedTime: Math.trunc(infectionsByRequestedTime(10) * 0.02),
-        dollarsInFlight: dollarsInFlight(50)
+        currentlyInfected: currentlyInfected(data, 10),
+        infectionsByRequestedTime: infectionsByRequestedTime(data, 10),
+        severeCasesByRequestedTime: Math.trunc(infectionsByRequestedTime(data, 10) * 0.15),
+        hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(data, 10),
+        casesForICUByRequestedTime: Math.trunc(infectionsByRequestedTime(data, 10) * 0.05),
+        casesForVentilatorsByRequestedTime: Math.trunc(infectionsByRequestedTime(data, 10) * 0.02),
+        dollarsInFlight: dollarsInFlight(data, 10)
       },
       severeImpact: {
-        currentlyInfected: currentlyInfected(50),
-        infectionsByRequestedTime: infectionsByRequestedTime(50),
-        severeCasesByRequestedTime: Math.trunc(infectionsByRequestedTime(50) * 0.15),
-        hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(50),
-        casesForICUByRequestedTime: Math.trunc(infectionsByRequestedTime(50) * 0.05),
-        casesForVentilatorsByRequestedTime: Math.trunc(infectionsByRequestedTime(50) * 0.02),
-        dollarsInFlight: dollarsInFlight(50)
+        currentlyInfected: currentlyInfected(data, 50),
+        infectionsByRequestedTime: infectionsByRequestedTime(data, 50),
+        severeCasesByRequestedTime: Math.trunc(infectionsByRequestedTime(data, 50) * 0.15),
+        hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(data, 50),
+        casesForICUByRequestedTime: Math.trunc(infectionsByRequestedTime(data, 50) * 0.05),
+        casesForVentilatorsByRequestedTime: Math.trunc(infectionsByRequestedTime(data, 50) * 0.02),
+        dollarsInFlight: dollarsInFlight(data, 50)
       }
     }
   });
