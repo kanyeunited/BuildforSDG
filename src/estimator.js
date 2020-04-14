@@ -2,12 +2,12 @@ let period = 0;
 const i = 10;
 const j = 50;
 
-const currentlyInfected = (data, estimate) => {
+const currentlyInfected = ({ data }, estimate) => {
   const { reportedCases } = data;
   return reportedCases * estimate;
 };
 
-const infectionsByRequestedTime = (data, estimate) => {
+const infectionsByRequestedTime = ({ data }, estimate) => {
   const { periodType, timeToElapse } = data;
   if (periodType.toLowerCase() === 'days') period = timeToElapse;
   else if (periodType.toLowerCase() === 'weeks') period = timeToElapse * 7;
@@ -16,7 +16,7 @@ const infectionsByRequestedTime = (data, estimate) => {
   return currentlyInfected(data, estimate) * (2 ** Math.trunc(period / 3));
 };
 
-const dollarsInFlight = (data, estimate) => {
+const dollarsInFlight = ({ data }, estimate) => {
   const { periodType, timeToElapse, region } = data;
 
   if (periodType === 'days') period = timeToElapse;
@@ -31,7 +31,7 @@ const dollarsInFlight = (data, estimate) => {
   return dollarsInFlights;
 };
 
-const hospitalBedsByRequestedTime = (data, estimate) => {
+const hospitalBedsByRequestedTime = ({ data }, estimate) => {
   const { totalHospitalBeds } = data;
 
   let hospitalBedsByRequestedTimes = Math.trunc(totalHospitalBeds * 0.35);
