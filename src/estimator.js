@@ -25,7 +25,7 @@ const covid19ImpactEstimator = (data) => {
   };
 
   const hospitalBedsByRequestedTime = (estimate) => {
-    const hospitalBeds = Math.trunc((totalHospitalBeds * 35) / 100);
+    let hospitalBeds = Math.trunc((totalHospitalBeds * 35) / 100);
     hospitalBeds -= severeCasesByRequestedTime(estimate);
 
     return hospitalBeds;
@@ -42,7 +42,7 @@ const covid19ImpactEstimator = (data) => {
   };
 
   const dollarsInFlight = (estimate) => {
-    const dollars = infectionsByRequestedTime(estimate);
+    let dollars = infectionsByRequestedTime(estimate);
     dollars *= region.avgDailyIncomePopulation;
     dollars *= region.avgDailyIncomeInUSD;
     dollars = Math.trunc(dollars / period);
