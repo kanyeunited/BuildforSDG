@@ -1,11 +1,11 @@
 let period = 0;
 
-const currentlyInfected = (data, estimate) => data.reportedCases * estimate;
+const currentlyInfected = (data, estimate) => Number(data.reportedCases * estimate);
 
 const infectionsByRequestedTime = (data, estimate) => {
-  if (data.periodType === 'days') period = data.timeToElapse;
-  else if (data.periodType === 'weeks') period = data.timeToElapse * 7;
-  else if (data.periodType === 'months') period = data.timeToElapse * 7 * 4;
+  if (data.periodType.trim() === 'days') period = data.timeToElapse;
+  else if (data.periodType.trim() === 'weeks') period = data.timeToElapse * 7;
+  else if (data.periodType.trim() === 'months') period = data.timeToElapse * 30;
 
   return currentlyInfected(data, estimate) * (2 ** Math.trunc(period / 3));
 };
@@ -13,7 +13,7 @@ const infectionsByRequestedTime = (data, estimate) => {
 const dollarsInFlight = (data, estimate) => {
   if (data.periodType === 'days') period = data.timeToElapse;
   else if (data.periodType === 'weeks') period = data.timeToElapse * 7;
-  else if (data.periodType === 'months') period = data.timeToElapse * 7 * 4;
+  else if (data.periodType === 'months') period = data.timeToElapse * 30;
 
   let dollarsInFlights = infectionsByRequestedTime(data, estimate);
   dollarsInFlights *= data.region.avgDailyIncomePopulation;
