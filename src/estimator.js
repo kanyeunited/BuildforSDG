@@ -13,6 +13,10 @@ const infectionsByRequestedTime = (data, estimate) => {
 };
 
 const dollarsInFlight = (data, estimate) => {
+  if (data.periodType === 'days') period = data.timeToElapse;
+  else if (data.periodType === 'weeks') period = data.timeToElapse * 7;
+  else if (data.periodType === 'months') period = data.timeToElapse * 30;
+
   let dollarsInFlights = infectionsByRequestedTime(data, estimate);
   dollarsInFlights *= data.region.avgDailyIncomePopulation;
   dollarsInFlights *= data.region.avgDailyIncomeInUSD;
