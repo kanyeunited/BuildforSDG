@@ -7,7 +7,7 @@ const covid19ImpactEstimator = (data) => {
     totalHospitalBeds
   } = data;
 
-  const period = 0;
+  let period = 0;
   if (periodType === 'days') period = timeToElapse;
   else if (periodType === 'weeks') period = timeToElapse * 7;
   else if (periodType === 'months') period = timeToElapse * 30;
@@ -15,36 +15,39 @@ const covid19ImpactEstimator = (data) => {
   const currentlyInfected = (estimate) => reportedCases * estimate;
 
   const infectionsByRequestedTime = (estimate) => {
-    const infectionsByReqTime = (2 ** Math.trunc(period / 3));
-    return currentlyInfected(estimate) * infectionsByReqTime;
+    let infections = (2 ** Math.trunc(period / 3));
+    return currentlyInfected(estimate) * infections;
   };
 
   const severeCasesByRequestedTime = (estimate) => {
-    return Math.trunc((infectionsByRequestedTime(estimate) * 15) / 100);
+    let severeCases = infectionsByRequestedTime(estimate) * 15
+    return Math.trunc(severeCases / 100);
   };
 
   const hospitalBedsByRequestedTime = (estimate) => {
-    const hospitalBedsByRequestedTimes = Math.trunc((totalHospitalBeds * 35) / 100);
-    hospitalBedsByRequestedTimes -= severeCasesByRequestedTime(estimate);
+    let hospitalBeds = Math.trunc((totalHospitalBeds * 35) / 100);
+    hospitalBeds -= severeCasesByRequestedTime(estimate);
 
-    return hospitalBedsByRequestedTimes;
+    return hospitalBeds;
   };
 
   const casesForICUByRequestedTime = (estimate) => {
-    return Math.trunc((infectionsByRequestedTime(estimate) * 5) / 100);
+    let casesForICU = infectionsByRequestedTime(estimate) * 5;
+    return Math.trunc(casesForICU / 100);
   };
 
   const casesForVentilatorsByRequestedTime = (estimate) => {
-    return Math.trunc((infectionsByRequestedTime(estimate) * 2) / 100);
+    let casesForVentilators = infectionsByRequestedTime(estimate) * 2;
+    return Math.trunc(casesForVentilators / 100);
   };
 
   const dollarsInFlight = (estimate) => {
-    let dollarsInFlights = infectionsByRequestedTime(estimate);
-    dollarsInFlights *= region.avgDailyIncomePopulation;
-    dollarsInFlights *= region.avgDailyIncomeInUSD;
-    dollarsInFlights = Math.trunc(dollarsInFlights / period);
+    let dollars = infectionsByRequestedTime(estimate);
+    dollars *= region.avgDailyIncomePopulation;
+    dollars *= region.avgDailyIncomeInUSD;
+    dollars = Math.trunc(dollars / period);
 
-    return dollarsInFlights;
+    return dollars;
   };
 
   const output = () => ({
