@@ -19,7 +19,7 @@ const dollarsInFlight = (data, currentlyInfected) => {
 
 const hospitalBedsByRequestedTime = (data, currentlyInfected) => {
   let hospitalBedsByRequestedTimes = Number(data.totalHospitalBeds * 0.35);
-  let severeCasesByRequestedTime = infectionsByRequestedTime(data, currentlyInfected);
+  const severeCasesByRequestedTime = infectionsByRequestedTime(data, currentlyInfected);
   hospitalBedsByRequestedTimes -= Number(severeCasesByRequestedTime * 0.15);
 
   return hospitalBedsByRequestedTimes;
