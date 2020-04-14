@@ -1,7 +1,7 @@
 let period = 0;
 
-const infectionsByRequestedTime = ({data}, currentlyInfected) => {
-  const {periodType, timeToElapse} = data;
+const infectionsByRequestedTime = (data, currentlyInfected) => {
+  const { periodType, timeToElapse } = data;
   if (data.periodType === 'days') period = data.timeToElapse;
   else if (data.periodType === 'weeks') period = data.timeToElapse * 7;
   else if (data.periodType === 'months') period = data.timeToElapse * 30;
@@ -9,7 +9,7 @@ const infectionsByRequestedTime = ({data}, currentlyInfected) => {
   return currentlyInfected * (2 ** Number(period / 3));
 };
 
-const dollarsInFlight = ({data}, currentlyInfected) => {
+const dollarsInFlight = (data, currentlyInfected) => {
   const [region] = data;
   let dollarsInFlights = infectionsByRequestedTime(data, currentlyInfected);
   dollarsInFlights *= data.region.avgDailyIncomePopulation;
@@ -19,10 +19,11 @@ const dollarsInFlight = ({data}, currentlyInfected) => {
   return dollarsInFlights;
 };
 
-const hospitalBedsByRequestedTime = ({data}, severeCasesByRequestedTime) => {
-  const {totalHospitalBeds} = data;
-  let hospitalBedsByRequestedTimes = data.totalHospitalBeds * 0.35;
-  hospitalBedsByRequestedTimes -= severeCasesByRequestedTime;
+const hospitalBedsByRequestedTime = (data, currentlyInfected) => {
+  const { totalHospitalBeds } = data;
+  let hospitalBedsByRequestedTimes = Number(data.totalHospitalBeds * 0.35);
+  let severeCasesByRequestedTime = infectionsByRequestedTime(data, currentlyInfected);
+  hospitalBedsByRequestedTimes -= Number(severeCasesByRequestedTime * 0.15);
 
   return hospitalBedsByRequestedTimes;
 };
@@ -32,21 +33,21 @@ const covid19ImpactEstimator = (data) => ({
   estimate: {
     impact: {
       currentlyInfected: data.reportedCases * 10,
-      infectionsByRequestedTime: infectionsByRequestedTime(data, this.currentlyInfected),
-      severeCasesByRequestedTime: Number(infectionsByRequestedTime(data) * 0.15),
-      hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(data, this.severeCasesByRequestedTime),
-      casesForICUByRequestedTime: Number(infectionsByRequestedTime(data, this.currentlyInfected) * 0.05),
-      casesForVentilatorsByRequestedTime: Number(infectionsByRequestedTime(data, this.currentlyInfected) * 0.02),
-      dollarsInFlight: dollarsInFlight(data, this.currentlyInfected)
+      infectionsByRequestedTime: infectionsByRequestedTime(data, 10),
+      severeCasesByRequestedTime: Number(infectionsByRequestedTime(data, 10) * 0.15),
+      hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(data, 10),
+      casesForICUByRequestedTime: Number(infectionsByRequestedTime(data, 10) * 0.05),
+      casesForVentilatorsByRequestedTime: Number(infectionsByRequestedTime(data, 10) * 0.02),
+      dollarsInFlight: dollarsInFlight(data, 10)
     },
     severeImpact: {
-      currentlyInfected: data.reportedCases * 10,
-      infectionsByRequestedTime: infectionsByRequestedTime(data, this.currentlyInfected),
-      severeCasesByRequestedTime: Number(infectionsByRequestedTime(data) * 0.15),
-      hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(data, this.severeCasesByRequestedTime),
-      casesForICUByRequestedTime: Number(infectionsByRequestedTime(data, this.currentlyInfected) * 0.05),
-      casesForVentilatorsByRequestedTime: Number(infectionsByRequestedTime(data, this.currentlyInfected) * 0.02),
-      dollarsInFlight: dollarsInFlight(data, this.currentlyInfected)
+      currentlyInfected: data.reportedCases * 50,
+      infectionsByRequestedTime: infectionsByRequestedTime(data, 50),
+      severeCasesByRequestedTime: Number(infectionsByRequestedTime(data, 50) * 0.15),
+      hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(data, 50),
+      casesForICUByRequestedTime: Number(infectionsByRequestedTime(data, 50) * 0.05),
+      casesForVentilatorsByRequestedTime: Number(infectionsByRequestedTime(data, 50) * 0.02),
+      dollarsInFlight: dollarsInFlight(data, 50)
     }
   }
 });
