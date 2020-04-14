@@ -15,34 +15,34 @@ const covid19ImpactEstimator = (data) => {
   const currentlyInfected = (estimate) => reportedCases * estimate;
 
   const infectionsByRequestedTime = (estimate) => {
-    let infections = (2 ** Math.trunc(period / 3));
+    const infections = (2 ** Math.trunc(period / 3));
     return currentlyInfected(estimate) * infections;
   };
 
   const severeCasesByRequestedTime = (estimate) => {
-    let severeCases = infectionsByRequestedTime(estimate) * 15
+    const severeCases = infectionsByRequestedTime(estimate) * 15;
     return Math.trunc(severeCases / 100);
   };
 
   const hospitalBedsByRequestedTime = (estimate) => {
-    let hospitalBeds = Math.trunc((totalHospitalBeds * 35) / 100);
+    const hospitalBeds = Math.trunc((totalHospitalBeds * 35) / 100);
     hospitalBeds -= severeCasesByRequestedTime(estimate);
 
     return hospitalBeds;
   };
 
   const casesForICUByRequestedTime = (estimate) => {
-    let casesForICU = infectionsByRequestedTime(estimate) * 5;
+    const casesForICU = infectionsByRequestedTime(estimate) * 5;
     return Math.trunc(casesForICU / 100);
   };
 
   const casesForVentilatorsByRequestedTime = (estimate) => {
-    let casesForVentilators = infectionsByRequestedTime(estimate) * 2;
+    const casesForVentilators = infectionsByRequestedTime(estimate) * 2;
     return Math.trunc(casesForVentilators / 100);
   };
 
   const dollarsInFlight = (estimate) => {
-    let dollars = infectionsByRequestedTime(estimate);
+    const dollars = infectionsByRequestedTime(estimate);
     dollars *= region.avgDailyIncomePopulation;
     dollars *= region.avgDailyIncomeInUSD;
     dollars = Math.trunc(dollars / period);
