@@ -80,39 +80,32 @@ export default covid19ImpactEstimator;
 const getResponseFormat = () => prompt('Enter Response Format!');
 
 const fetchInput = () => {
-  const ResponseFormat = getResponseFormat().toLowerCase();
-  if(ResponseFormat=="") ResponseFormat = "json";
+  let ResponseFormat = getResponseFormat().toLowerCase();
+  if (ResponseFormat === '') ResponseFormat = 'json';
 
-  fetch('http://example.com/api/v1/on-covid-19/' + ResponseFormat)
-    .then( (response) => {
-      if(ResponseFormat == "xml") return response.xml();
-      else return response.json();
-    })
-    .then ((data) => {
+  fetch('http://example.com/api/v1/on-covid-19/'+ResponseFormat).then((response) => {
+      if (ResponseFormat === 'xml') return response.xml();
+      else if (ResponseFormat === 'json')return response.json();
+    }).then((data) => {
       covid19ImpactEstimator(data);
       fetchLogs(ResponseFormat);
-    })
-    .catch((err) => {
+    }).catch((err) => {
       console.error(err);
     });
 };
 
 const fetchLogs = (ResponseFormat) => {
   let messageHeaders = new Headers();
-  messageHeaders.append('Content-Type','application/' + ResponseFormat);
+  messageHeaders.append('Content-Type','application/'+ResponseFormat);
 
-  fetch('http://example.com/api/v1/on-covid-19/logs',
-  {
+  fetch('http://example.com/api/v1/on-covid-19/logs', {
     method: 'GET',
     headers: messageHeaders
-  })
-    .then( (response) => {
+  }).then((response) => {
       response.text();
-    })
-    .then ((data) => {
+    }).then((data) => {
       console.log(data);
-    })
-    .catch((err) => {
+    }).catch((err) => {
       console.error(err);
     });
 };
