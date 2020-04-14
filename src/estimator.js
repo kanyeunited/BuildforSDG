@@ -97,8 +97,8 @@ const fetchInput = () => {
 };
 
 const fetchLogs = (ResponseFormat) => {
-  const contentType = 'Content-Type','application/' + ResponseFormat;
-  let messageHeaders = new Headers(contentType);
+  const contentType = 'application/' + ResponseFormat;
+  let messageHeaders = new Headers('Content-Type', contentType);
   messageHeaders.append();
 
   fetch('http://example.com/api/v1/on-covid-19/logs', {
