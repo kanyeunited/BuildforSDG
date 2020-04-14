@@ -9,7 +9,8 @@ const covid19ImpactEstimator = (data) => {
   const currentlyInfected = (estimate) => reportedCases * estimate;
 
   const infectionsByRequestedTime = (estimate) => {
-    return currentlyInfected(estimate) * (2 ** Math.trunc(period / 3));
+    const infectionsByReqTime = (2 ** Math.trunc(period / 3));
+    return currentlyInfected(estimate) * infectionsByReqTime;
   };
 
   const dollarsInFlight = (estimate) => {
