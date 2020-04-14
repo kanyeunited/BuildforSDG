@@ -21,7 +21,7 @@ const covid19ImpactEstimator = (data) => {
 
   const severeCasesByRequestedTime = (estimate) => {
     const severeCases = infectionsByRequestedTime(estimate) * 15;
-    return Math.trunc(severeCases / 100);
+    return severeCases / 100;
   };
 
   const hospitalBedsByRequestedTime = (estimate) => {
@@ -33,19 +33,19 @@ const covid19ImpactEstimator = (data) => {
 
   const casesForICUByRequestedTime = (estimate) => {
     const casesForICU = infectionsByRequestedTime(estimate) * 5;
-    return Math.trunc(casesForICU / 100);
+    return casesForICU / 100;
   };
 
   const casesForVentilatorsByRequestedTime = (estimate) => {
     const casesForVentilators = infectionsByRequestedTime(estimate) * 2;
-    return Math.trunc(casesForVentilators / 100);
+    return casesForVentilators / 100;
   };
 
   const dollarsInFlight = (estimate) => {
     let dollars = infectionsByRequestedTime(estimate);
     dollars *= region.avgDailyIncomePopulation;
     dollars *= region.avgDailyIncomeInUSD;
-    dollars = Math.trunc(dollars / period);
+    dollars = dollars / period;
 
     return dollars;
   };
@@ -55,20 +55,20 @@ const covid19ImpactEstimator = (data) => {
     impact: {
       currentlyInfected: currentlyInfected(10),
       infectionsByRequestedTime: infectionsByRequestedTime(10),
-      severeCasesByRequestedTime: severeCasesByRequestedTime(10),
-      hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(10),
-      casesForICUByRequestedTime: casesForICUByRequestedTime(10),
-      casesForVentilatorsByRequestedTime: casesForVentilatorsByRequestedTime(10),
-      dollarsInFlight: dollarsInFlight(10)
+      severeCasesByRequestedTime: Math.trunc(severeCasesByRequestedTime(10)),
+      hospitalBedsByRequestedTime: Math.trunc(hospitalBedsByRequestedTime(10)),
+      casesForICUByRequestedTime: Math.trunc(casesForICUByRequestedTime(10)),
+      casesForVentilatorsByRequestedTime: Math.trunc(casesForVentilatorsByRequestedTime(10)),
+      dollarsInFlight: Math.trunc(dollarsInFlight(10))
     },
     severeImpact: {
       currentlyInfected: currentlyInfected(50),
       infectionsByRequestedTime: infectionsByRequestedTime(50),
-      severeCasesByRequestedTime: severeCasesByRequestedTime(50),
-      hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(50),
-      casesForICUByRequestedTime: casesForICUByRequestedTime(50),
-      casesForVentilatorsByRequestedTime: casesForVentilatorsByRequestedTime(50),
-      dollarsInFlight: dollarsInFlight(50)
+      severeCasesByRequestedTime: Math.trunc(severeCasesByRequestedTime(50)),
+      hospitalBedsByRequestedTime: Math.trunc(hospitalBedsByRequestedTime(50)),
+      casesForICUByRequestedTime: Math.trunc(casesForICUByRequestedTime(50)),
+      casesForVentilatorsByRequestedTime: Math.trunc(casesForVentilatorsByRequestedTime(50)),
+      dollarsInFlight: Math.trunc(dollarsInFlight(50))
     }
   });
 
