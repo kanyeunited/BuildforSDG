@@ -1,22 +1,22 @@
 const covid19ImpactEstimator = (data) => {
-  const { reportedCases } = data;
+  const { reportedCases, periodType, timeToElapse } = data;
 
   const currentlyInfected = (estimate) => reportedCases * estimate;
 
   const infectionsByRequestedTime = (estimate) => {
     let period = 0;
-    if (data.periodType === 'days') period = data.timeToElapse;
-    else if (data.periodType === 'weeks') period = data.timeToElapse * 7;
-    else if (data.periodType === 'months') period = data.timeToElapse * 30;
+    if (periodType === 'days') period = timeToElapse;
+    else if (periodType === 'weeks') period = timeToElapse * 7;
+    else if (periodType === 'months') period = timeToElapse * 30;
 
     return currentlyInfected(estimate) * (2 ** Math.trunc(period / 3));
   };
 
   const dollarsInFlight = (estimate) => {
     let period = 0;
-    if (data.periodType === 'days') period = data.timeToElapse;
-    else if (data.periodType === 'weeks') period = data.timeToElapse * 7;
-    else if (data.periodType === 'months') period = data.timeToElapse * 30;
+    if (periodType === 'days') period = timeToElapse;
+    else if (periodType === 'weeks') period = timeToElapse * 7;
+    else if (periodType === 'months') period = timeToElapse * 30;
 
     let dollarsInFlights = infectionsByRequestedTime(estimate);
     dollarsInFlights *= data.region.avgDailyIncomePopulation;
