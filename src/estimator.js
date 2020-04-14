@@ -1,6 +1,6 @@
 let period = 0;
 
-const currentlyInfected = (data, estimate) => return data.reportedCases * estimate;
+const currentlyInfected = (data, estimate) => {return data.reportedCases * estimate;};
 
 const infectionsByRequestedTime = (data, estimate) => {
   if (data.periodType.toLowerCase() === 'days') period = data.timeToElapse;
