@@ -1,6 +1,6 @@
 let period = 0;
 
-const currentlyInfected = (data, estimate) => Number(data.reportedCases * estimate);
+const currentlyInfected = (data, estimate) => data.reportedCases * estimate;
 
 const infectionsByRequestedTime = (data, estimate) => {
   if (data.periodType.trim() === 'days') period = data.timeToElapse;
@@ -35,8 +35,8 @@ const covid19ImpactEstimator = (data) => ({
   data,
   estimate: {
     impact: {
-      currentlyInfected: currentlyInfected(data, 10),
-      infectionsByRequestedTime: infectionsByRequestedTime(data, 10),
+      currentlyInfected: any currentlyInfected(data, 10),
+      infectionsByRequestedTime: any infectionsByRequestedTime(data, 10),
       severeCasesByRequestedTime: Math.trunc(infectionsByRequestedTime(data, 10) * 0.15),
       hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(data, 10),
       casesForICUByRequestedTime: Math.trunc(infectionsByRequestedTime(data, 10) * 0.05),
