@@ -1,27 +1,3 @@
-const output = (data) => ({
-  data,
-  estimate: {
-    impact: {
-      currentlyInfected: currentlyInfected(10),
-      infectionsByRequestedTime: infectionsByRequestedTime(10),
-      severeCasesByRequestedTime: Math.trunc(infectionsByRequestedTime(10) * 0.15),
-      hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(10),
-      casesForICUByRequestedTime: Math.trunc(infectionsByRequestedTime(10) * 0.05),
-      casesForVentilatorsByRequestedTime: Math.trunc(infectionsByRequestedTime(10) * 0.02),
-      dollarsInFlight: dollarsInFlight(50)
-    },
-    severeImpact: {
-      currentlyInfected: currentlyInfected(50),
-      infectionsByRequestedTime: infectionsByRequestedTime(50),
-      severeCasesByRequestedTime: Math.trunc(infectionsByRequestedTime(50) * 0.15),
-      hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(50),
-      casesForICUByRequestedTime: Math.trunc(infectionsByRequestedTime(50) * 0.05),
-      casesForVentilatorsByRequestedTime: Math.trunc(infectionsByRequestedTime(50) * 0.02),
-      dollarsInFlight: dollarsInFlight(50)
-    }
-  }
-});
-
 const covid19ImpactEstimator = (result) => {
   const [data] = result;
 
@@ -71,7 +47,31 @@ const covid19ImpactEstimator = (result) => {
     return hospitalBedsByRequestedTimes;
   };
 
-  return output(data);
+  const output = () => ({
+    data,
+    estimate: {
+      impact: {
+        currentlyInfected: currentlyInfected(10),
+        infectionsByRequestedTime: infectionsByRequestedTime(10),
+        severeCasesByRequestedTime: Math.trunc(infectionsByRequestedTime(10) * 0.15),
+        hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(10),
+        casesForICUByRequestedTime: Math.trunc(infectionsByRequestedTime(10) * 0.05),
+        casesForVentilatorsByRequestedTime: Math.trunc(infectionsByRequestedTime(10) * 0.02),
+        dollarsInFlight: dollarsInFlight(50)
+      },
+      severeImpact: {
+        currentlyInfected: currentlyInfected(50),
+        infectionsByRequestedTime: infectionsByRequestedTime(50),
+        severeCasesByRequestedTime: Math.trunc(infectionsByRequestedTime(50) * 0.15),
+        hospitalBedsByRequestedTime: hospitalBedsByRequestedTime(50),
+        casesForICUByRequestedTime: Math.trunc(infectionsByRequestedTime(50) * 0.05),
+        casesForVentilatorsByRequestedTime: Math.trunc(infectionsByRequestedTime(50) * 0.02),
+        dollarsInFlight: dollarsInFlight(50)
+      }
+    }
+  });
+
+  return output();
 };
 
 export default covid19ImpactEstimator;
